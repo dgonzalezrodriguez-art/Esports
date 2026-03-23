@@ -12,17 +12,17 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         JugadorDAO jugadorDAO = new JugadorDAO();
-        EquipoDAO equipoDAO = new EquipoDAO(); // <-- Añadimos la herramienta de equipos
+        EquipoDAO equipoDAO = new EquipoDAO();
         int opcion = 0;
 
         System.out.println("gestor de esports");
-        while (opcion != 7) { // <-- Ahora salimos con el 7
+        while (opcion != 7) {
             System.out.println("1. Crear Jugador");
             System.out.println("2. Listar Jugadores");
             System.out.println("3. Modificar un Jugador");
             System.out.println("4. Borrar Jugador");
             System.out.println("5. Ver Jugadores con su Equipo (JOIN)");
-            System.out.println("6. Crear Equipo"); // <-- NUEVA OPCION
+            System.out.println("6. Crear Equipo");
             System.out.println("7. Salir");
             System.out.print("Elige una opcion: ");
 
