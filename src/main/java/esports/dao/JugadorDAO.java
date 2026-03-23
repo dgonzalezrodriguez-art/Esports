@@ -11,7 +11,7 @@ import java.util.List;
 
 public class JugadorDAO {
 
-    // 1. Metodo para CREAR
+
     public void insertarJugador(Jugador jugador) throws ExcepcionDeCarga {
         String sql = "INSERT INTO jugador (nombre, rol, id_equipo) VALUES (?, ?, ?)";
         try (Connection conn = ConexionDB.conectar();
@@ -26,7 +26,7 @@ public class JugadorDAO {
         }
     }
 
-    // 2. Metodo para LEER
+
     public List<Jugador> obtenerTodosLosJugadores() throws ExcepcionDeCarga {
         List<Jugador> jugadores = new ArrayList<>();
         String sql = "SELECT * FROM jugador";
@@ -47,7 +47,7 @@ public class JugadorDAO {
         return jugadores;
     }
 
-    // 3. Metodo para MODIFICAR (El que faltaba)
+
     public void modificarJugador(int idJugador, String nuevoNombre, String nuevoRol, int nuevoIdEquipo) throws ExcepcionDeCarga {
         String sql = "UPDATE jugador SET nombre = ?, rol = ?, id_equipo = ? WHERE id_jugador = ?";
         try (Connection conn = ConexionDB.conectar();
@@ -69,7 +69,7 @@ public class JugadorDAO {
         }
     }
 
-    // 4. Metodo para BORRAR (El que faltaba)
+
     public void borrarJugador(int idJugador) throws ExcepcionDeCarga {
         String sql = "DELETE FROM jugador WHERE id_jugador = ?";
         try (Connection conn = ConexionDB.conectar();
@@ -87,10 +87,10 @@ public class JugadorDAO {
             throw new ExcepcionDeCarga("Error al borrar: " + e.getMessage());
         }
     }
-    // 5. Metodo para el JOIN (Ver jugadores con el nombre de su equipo)
+
     public List<String> obtenerJugadoresConEquipo() throws ExcepcionDeCarga {
         List<String> resultados = new ArrayList<>();
-        // Aquí está la magia del JOIN: Cruzamos la tabla jugador (j) con equipo (e)
+
         String sql = "SELECT j.id_jugador, j.nombre, j.rol, e.nombre AS nombre_equipo " +
                 "FROM jugador j JOIN equipo e ON j.id_equipo = e.id_equipo";
 
@@ -99,11 +99,11 @@ public class JugadorDAO {
              ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                // Montamos un texto bonito con los datos cruzados
+
                 String info = "ID: " + rs.getInt("id_jugador") +
                         " | Nickname: " + rs.getString("nombre") +
                         " | Rol: " + rs.getString("rol") +
-                        " | Equipo: " + rs.getString("nombre_equipo"); // <-- ¡Aquí pillamos el nombre!
+                        " | Equipo: " + rs.getString("nombre_equipo");
                 resultados.add(info);
             }
         } catch (SQLException e) {
