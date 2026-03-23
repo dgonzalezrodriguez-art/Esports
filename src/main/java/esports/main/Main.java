@@ -32,14 +32,46 @@ public class Main {
                         System.out.print("Rol: ");
                         String rol = scanner.nextLine();
                         System.out.print("ID del Equipo: ");
-                        int idEquipo = Integer.parseInt(scanner.nextLine());
-                        jugadorDAO.insertarJugador(new Jugador(0, nomb, rol, idEquipo));
+                        int idEq = Integer.parseInt(scanner.nextLine());
+                        jugadorDAO.insertarJugador(new Jugador(0, nomb, rol, idEq));
                         break;
                     case 2:
                         List<Jugador> jugadores = jugadorDAO.obtenerTodosLosJugadores();
-                        for (Jugador j : jugadores) {
-                            System.out.println(j.toString());
+                        if (jugadores.isEmpty()) {
+                            System.out.println("No hay jugadores registrados.");
+                        } else {
+                            for (Jugador j : jugadores) {
+                                System.out.println(j.toString());
+                            }
                         }
+                        break;
+                    case 3:
+                        System.out.print("ID del jugador a modificar: ");
+                        int idMod = Integer.parseInt(scanner.nextLine());
+                        System.out.print("Nuevo Nombre: ");
+                        String nuevoNomb = scanner.nextLine();
+                        System.out.print("Nuevo Rol: ");
+                        String nuevoRol = scanner.nextLine();
+                        System.out.print("ID de Equipo (Introduce el que ya tenia): ");
+                        int nuevoIdEq = Integer.parseInt(scanner.nextLine());
+                        jugadorDAO.modificarJugador(idMod, nuevoNomb, nuevoRol, nuevoIdEq);
+                        break;
+                    case 4:
+                        System.out.print("ID del jugador a borrar: ");
+                        int idBorrar = Integer.parseInt(scanner.nextLine());
+                        jugadorDAO.borrarJugador(idBorrar);
+                        break;
+                    case 5:
+                        System.out.println("--- JUGADORES Y SUS EQUIPOS (JOIN) ---");
+                        List<String> jugadoresConEquipo = jugadorDAO.obtenerJugadoresConEquipo();
+                        if (jugadoresConEquipo.isEmpty()) {
+                            System.out.println("No hay jugadores asignados a ningun equipo.");
+                        } else {
+                            for (String info : jugadoresConEquipo) {
+                                System.out.println(info);
+                            }
+                        }
+                        System.out.println("--------------------------------------");
                         break;
                 }
             } catch (ExcepcionDeCarga e) {
