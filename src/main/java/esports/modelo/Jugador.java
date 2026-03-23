@@ -40,6 +40,6 @@ public class Jugador {
     }
     @Override
     public String toString() {
-        return "ID: " + idJugador + " | Nickname: " + nombre + " | Rol: " + rol + " | ID Equipo: " + idEquipo;
+        return "ID: " + idJugador + " | Nombre: " + nombre + " | Rol: " + rol + " | ID Equipo: " + idEquipo;
     }
 }
