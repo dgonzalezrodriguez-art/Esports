@@ -101,7 +101,7 @@ public class JugadorDAO {
             while (rs.next()) {
 
                 String info = "ID: " + rs.getInt("id_jugador") +
-                        " | Nickname: " + rs.getString("nombre") +
+                        " | Nombre: " + rs.getString("nombre") +
                         " | Rol: " + rs.getString("rol") +
                         " | Equipo: " + rs.getString("nombre_equipo");
                 resultados.add(info);

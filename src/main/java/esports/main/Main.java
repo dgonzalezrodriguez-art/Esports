@@ -1,6 +1,7 @@
 package esports.main;
 
 import esports.dao.JugadorDAO;
+import esports.dao.EquipoDAO;
 import esports.excepciones.ExcepcionDeCarga;
 import esports.modelo.Jugador;
 
@@ -11,16 +12,18 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         JugadorDAO jugadorDAO = new JugadorDAO();
+        EquipoDAO equipoDAO = new EquipoDAO(); // <-- Añadimos la herramienta de equipos
         int opcion = 0;
 
         System.out.println("gestor de esports");
-        while (opcion != 6) {
+        while (opcion != 7) { // <-- Ahora salimos con el 7
             System.out.println("1. Crear Jugador");
             System.out.println("2. Listar Jugadores");
             System.out.println("3. Modificar un Jugador");
             System.out.println("4. Borrar Jugador");
             System.out.println("5. Ver Jugadores con su Equipo (JOIN)");
-            System.out.println("6. Salir");
+            System.out.println("6. Crear Equipo"); // <-- NUEVA OPCION
+            System.out.println("7. Salir");
             System.out.print("Elige una opcion: ");
 
             try {
@@ -52,7 +55,7 @@ public class Main {
                         String nuevoNomb = scanner.nextLine();
                         System.out.print("Nuevo Rol: ");
                         String nuevoRol = scanner.nextLine();
-                        System.out.print("ID de Equipo (Introduce el que ya tenia): ");
+                        System.out.print("ID de Equipo (Introduce el que ya tenia si no cambia): ");
                         int nuevoIdEq = Integer.parseInt(scanner.nextLine());
                         jugadorDAO.modificarJugador(idMod, nuevoNomb, nuevoRol, nuevoIdEq);
                         break;
@@ -72,6 +75,14 @@ public class Main {
                             }
                         }
                         System.out.println("--------------------------------------");
+                        break;
+                    case 6: // <-- NUEVO CÓDIGO PARA CREAR EQUIPO
+                        System.out.println("--- CREAR NUEVO EQUIPO ---");
+                        System.out.print("Nombre del equipo (Ej: Team Heretics): ");
+                        String nombreEquipo = scanner.nextLine();
+                        System.out.print("ID del Juego al que juegan (1=LoL, 2=Valorant, 3=CS2): ");
+                        int idJuego = Integer.parseInt(scanner.nextLine());
+                        equipoDAO.insertarEquipo(nombreEquipo, idJuego);
                         break;
                 }
             } catch (ExcepcionDeCarga e) {
