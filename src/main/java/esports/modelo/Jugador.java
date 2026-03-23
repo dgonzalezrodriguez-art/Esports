@@ -5,6 +5,7 @@ public class Jugador {
     private String nombre;
     private String rol;
     private int idEquipo;
+    private int numero;
 
 
     public Jugador(int idJugador, String nombre, String rol, int idEquipo) {
