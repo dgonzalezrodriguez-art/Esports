@@ -76,7 +76,7 @@ public class Main {
                         }
                         System.out.println("--------------------------------------");
                         break;
-                    case 6: // <-- NUEVO CÓDIGO PARA CREAR EQUIPO
+                    case 6:
                         System.out.println("--- CREAR NUEVO EQUIPO ---");
                         System.out.print("Nombre del equipo (Ej: Team Heretics): ");
                         String nombreEquipo = scanner.nextLine();
