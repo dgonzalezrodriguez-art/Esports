@@ -21,7 +21,7 @@ public class Main {
             System.out.println("2. Listar Jugadores");
             System.out.println("3. Modificar un Jugador");
             System.out.println("4. Borrar Jugador");
-            System.out.println("5. Ver Jugadores con su Equipo (JOIN)");
+            System.out.println("5. Filtrar");
             System.out.println("6. Crear Equipo");
             System.out.println("7. Salir");
             System.out.print("Elige una opcion: ");
@@ -65,16 +65,34 @@ public class Main {
                         jugadorDAO.borrarJugador(idBorrar);
                         break;
                     case 5:
-                        System.out.println("--- JUGADORES Y SUS EQUIPOS (JOIN) ---");
-                        List<String> jugadoresConEquipo = jugadorDAO.obtenerJugadoresConEquipo();
-                        if (jugadoresConEquipo.isEmpty()) {
-                            System.out.println("No hay jugadores asignados a ningun equipo.");
+                        System.out.println("--- FILTRO DE EQUIPOS Y JUGADORES ---");
+                        System.out.print("Introduce el ID del Juego (Ej: 1=LoL, 2=Valorant, 3=CS2): ");
+                        int idJuegoFiltro = Integer.parseInt(scanner.nextLine());
+
+                        List<String> equiposDelJuego = equipoDAO.obtenerEquiposPorJuego(idJuegoFiltro);
+                        if (equiposDelJuego.isEmpty()) {
+                            System.out.println("No hay equipos registrados para este juego.");
                         } else {
-                            for (String info : jugadoresConEquipo) {
-                                System.out.println(info);
+                            System.out.println("--- Equipos que juegan a este juego ---");
+                            for (String eq : equiposDelJuego) {
+                                System.out.println(eq);
+                            }
+                            System.out.println("---------------------------------------");
+
+                            System.out.print("Introduce el ID del equipo que quieres cotillear: ");
+                            int idEquipoFiltro = Integer.parseInt(scanner.nextLine());
+
+                            List<String> jugadoresDelEquipo = jugadorDAO.obtenerJugadoresPorEquipo(idEquipoFiltro);
+                            if (jugadoresDelEquipo.isEmpty()) {
+                                System.out.println("Este equipo aun no tiene jugadores inscritos.");
+                            } else {
+                                System.out.println("--- ROSTER DEL EQUIPO ---");
+                                for (String jug : jugadoresDelEquipo) {
+                                    System.out.println(jug);
+                                }
                             }
                         }
-                        System.out.println("--------------------------------------");
+                        System.out.println("-------------------------------------");
                         break;
                     case 6:
                         System.out.println("--- CREAR NUEVO EQUIPO ---");

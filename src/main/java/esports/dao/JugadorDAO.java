@@ -112,4 +112,22 @@ public class JugadorDAO {
 
         return resultados;
     }
+    public List<String> obtenerJugadoresPorEquipo(int idEquipo) throws ExcepcionDeCarga {
+        List<String> jugadores = new ArrayList<>();
+        String sql = "SELECT id_jugador, nombre, rol FROM jugador WHERE id_equipo = ?";
+
+        try (Connection conn = ConexionDB.conectar();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idEquipo);
+            try (java.sql.ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    jugadores.add("ID: " + rs.getInt("id_jugador") + " | Nombre: " + rs.getString("nombre") + " | Rol: " + rs.getString("rol"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new ExcepcionDeCarga("Error al buscar jugadores: " + e.getMessage());
+        }
+        return jugadores;
+    }
 }
