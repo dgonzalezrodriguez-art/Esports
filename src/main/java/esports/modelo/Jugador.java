@@ -8,11 +8,13 @@ public class Jugador {
     private int numero;
 
 
+
     public Jugador(int idJugador, String nombre, String rol, int idEquipo) {
         this.idJugador = idJugador;
         this.nombre = nombre;
         this.rol = rol;
         this.idEquipo = idEquipo;
+
     }
     public int getIdJugador() {
         return idJugador;
@@ -38,6 +40,7 @@ public class Jugador {
     public void setIdEquipo(int idEquipo) {
         this.idEquipo = idEquipo;
     }
+
     @Override
     public String toString() {
         return "ID: " + idJugador + " | Nombre: " + nombre + " | Rol: " + rol + " | ID Equipo: " + idEquipo;

@@ -12,60 +12,56 @@ import java.util.List;
 public class JugadorDAO {
 
 
-    public void insertarJugador(Jugador jugador) throws ExcepcionDeCarga {
-        String sql = "INSERT INTO jugador (nombre, rol, id_equipo) VALUES (?, ?, ?)";
+    public void insertarJugador(Jugador j) throws ExcepcionDeCarga {
+        String sql = "INSERT INTO jugador(nombre, rol, id_equipo) VALUES(?, ?, ?)";
         try (Connection conn = ConexionDB.conectar();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, jugador.getNombre());
-            pstmt.setString(2, jugador.getRol());
-            pstmt.setInt(3, jugador.getIdEquipo());
-            pstmt.executeUpdate();
-            System.out.println("Jugador insertado correctamente");
-        } catch (SQLException e) {
-            throw new ExcepcionDeCarga("Error al insertar el jugador: " + e.getMessage());
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, j.getNombre());
+            stmt.setString(2, j.getRol());
+            stmt.setInt(3, j.getIdEquipo());
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            throw new ExcepcionDeCarga("No se pudo insertar el jugador: " + e.getMessage());
         }
     }
 
 
-    public List<Jugador> obtenerTodosLosJugadores() throws ExcepcionDeCarga {
+    public List<Jugador> obtenerTodosLosJugadoresConJuego() throws ExcepcionDeCarga {
         List<Jugador> jugadores = new ArrayList<>();
-        String sql = "SELECT * FROM jugador";
+        String sql = "SELECT ju.id_jugador, ju.nombre, ju.rol, ju.id_equipo " +
+                "FROM jugador ju " +
+                "JOIN equipo e ON ju.id_equipo = e.id_equipo " +
+                "JOIN juego j ON e.id_juego = j.id_juego";
         try (Connection conn = ConexionDB.conectar();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                jugadores.add(new Jugador(
+                Jugador j = new Jugador(
                         rs.getInt("id_jugador"),
-                        rs.getString("Nombre"),
+                        rs.getString("nombre"),
                         rs.getString("rol"),
                         rs.getInt("id_equipo")
-                ));
+                );
+                jugadores.add(j);
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new ExcepcionDeCarga("Error al obtener los jugadores: " + e.getMessage());
         }
         return jugadores;
     }
 
 
-    public void modificarJugador(int idJugador, String nuevoNombre, String nuevoRol, int nuevoIdEquipo) throws ExcepcionDeCarga {
+    public void modificarJugador(int idJugador, String nombre, String rol, int idEquipo) throws ExcepcionDeCarga {
         String sql = "UPDATE jugador SET nombre = ?, rol = ?, id_equipo = ? WHERE id_jugador = ?";
         try (Connection conn = ConexionDB.conectar();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, nuevoNombre);
-            pstmt.setString(2, nuevoRol);
-            pstmt.setInt(3, nuevoIdEquipo);
-            pstmt.setInt(4, idJugador);
-
-            int filasAfectadas = pstmt.executeUpdate();
-            if (filasAfectadas > 0) {
-                System.out.println("Jugador modificado con exito.");
-            } else {
-                System.out.println("No se encontro ningun jugador con ese ID.");
-            }
-        } catch (SQLException e) {
-            throw new ExcepcionDeCarga("Error al modificar: " + e.getMessage());
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, nombre);
+            stmt.setString(2, rol);
+            stmt.setInt(3, idEquipo);
+            stmt.setInt(4, idJugador);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            throw new ExcepcionDeCarga("No se pudo modificar el jugador: " + e.getMessage());
         }
     }
 
@@ -73,18 +69,11 @@ public class JugadorDAO {
     public void borrarJugador(int idJugador) throws ExcepcionDeCarga {
         String sql = "DELETE FROM jugador WHERE id_jugador = ?";
         try (Connection conn = ConexionDB.conectar();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, idJugador);
-            int filasAfectadas = pstmt.executeUpdate();
-
-            if (filasAfectadas > 0) {
-                System.out.println("Jugador borrado correctamente.");
-            } else {
-                System.out.println("No se encontro un jugador con ese ID para borrar.");
-            }
-        } catch (SQLException e) {
-            throw new ExcepcionDeCarga("Error al borrar: " + e.getMessage());
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idJugador);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            throw new ExcepcionDeCarga("No se pudo borrar el jugador: " + e.getMessage());
         }
     }
 
